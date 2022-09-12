@@ -20,7 +20,7 @@ func main() {
 	}
 	defer db.Close()
 
-	// Implementation of data:
+	// Data Implementation:
 	// insert, err := db.Query("INSERT INTO `users` (`name`, `age`) VALUES('Bob', 36)")
 	// if err != nil {
 	// 	panic(err)
