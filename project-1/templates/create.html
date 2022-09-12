@@ -1,0 +1,19 @@
+{{ define "create" }}
+
+{{ template "header" }}
+	
+	  <main class="px-3 mb-3">
+		 <h1>Article Form adding.</h1>
+		 <form class="w-50 d-flex mx-auto flex-column" action="/save_article" method="post">
+			<input type="text" name="title" id="title" placeholder="Enter article title."
+			class="form-control"><br>
+			<textarea name="anons" id="anons" class="form-control" placeholder="Enter article announcement"></textarea><br>
+			<textarea name="full_text" id="full_text" class="form-control" placeholder="Enter article text"></textarea><br>
+			<button class="btn btn-warning w-25 mx-auto">Add</button>
+		 </form>
+		 
+	  </main>
+
+	  {{ template "footer" }}
+	
+	  {{ end }}

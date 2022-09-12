@@ -1,9 +1,12 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"html/template"
 	"net/http"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 func index(w http.ResponseWriter, r *http.Request) {
@@ -16,8 +19,42 @@ func index(w http.ResponseWriter, r *http.Request) {
 	t.ExecuteTemplate(w, "index", nil)
 }
 
+func create(w http.ResponseWriter, r *http.Request) {
+	t, err := template.ParseFiles("templates/create.html", "templates/header.html", "templates/footer.html")
+
+	if err != nil {
+		fmt.Fprintf(w, err.Error())
+	}
+
+	t.ExecuteTemplate(w, "create", nil)
+}
+
+func save_article(w http.ResponseWriter, r *http.Request) {
+	title := r.FormValue("title") // we get name from "name" in "Form" in "input"
+	anons := r.FormValue("anons")
+	full_text := r.FormValue("full_text")
+
+	db, err := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/golang")
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+
+	// Data Implementation:
+	insert, err := db.Query(fmt.Sprintf("INSERT INTO `article` (`title`, `anons`, `full_text`) VALUES('%s', '%s','%s')", title, anons, full_text))
+	if err != nil {
+		panic(err)
+	}
+	defer insert.Close()
+
+	http.Redirect(w, r, "/", http.StatusSeeOther)
+}
+
 func handleFunc() {
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static/")))) // Static file connect!
 	http.HandleFunc("/", index)
+	http.HandleFunc("/create", create)
+	http.HandleFunc("/save_article", save_article)
 	http.ListenAndServe(":8080", nil)
 }
 
