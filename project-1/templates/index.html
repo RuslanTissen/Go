@@ -6,6 +6,18 @@
 		 <h1>Main Page</h1>
 		 <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident quidem fugiat natus ea autem dolorum odit, consectetur pariatur eveniet repellendus optio sapiente magnam neque non ad doloribus officiis obcaecati iusto?</p>
 	
+<!-- We can get whole info by {{ . }}		  -->
+		{{ range . }}  
+		<div class="alert alert-danger w-50 d-flex mx-auto flex-column">
+			<h2>{{ .Title }}</h2>
+			<p>{{ .Anons }}</p>
+			<a href="/post/{{ .Id }}" class="btn btn-danger w-25 mx-auto">Read further</a>
+		</div>
+		{{ else }}
+		<p class="lead">There are no articles!</p>
+
+		{{ end }}
+
 		 <p class="lead">
 			<a href="#" class="btn btn-lg btn-secondary">Learn more</a>
 		 </p>
